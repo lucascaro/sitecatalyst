@@ -26,9 +26,9 @@ class SiteCatalyst
   {
     $output = '';
 // note: output is javascript
-    $output .= sprintf('s.channel="%s";', $this->channel) . PHP_EOL;
-    $output .= sprintf('s.charSet="%s";', $this->encoding) . PHP_EOL;
-    $output .= sprintf('s.pageName="%s";', $this->getPageName()) . PHP_EOL;
+    $output .= "s.channel=\"%s\";\n";
+    $output .= "s.charSet=\"%s\";\n";
+    $output .= "s.pageName=\"%s\";\n";
 
     ksort($this->props);
     ksort($this->evars);
@@ -36,20 +36,20 @@ class SiteCatalyst
 
     foreach ($this->props as $id => $value)
     {
-      $output .= sprintf('s.prop%d="%s";', $id, $value) . PHP_EOL;
+      $output .= "s.prop$id=\"$value\";\n";
     }
 
     foreach ($this->evars as $id => $value)
     {
-      $output .= sprintf('s.eVar%d="%s";', $id, $value) . PHP_EOL;
+      $output .= "s.eVar$id=\"$value\";\n";
     }
 
     foreach ($this->custom as $id => $value)
     {
-      $output .= sprintf('s.%s="%s";', $id, $value) . PHP_EOL;
+      $output .= "s.$id=\"$value\";\n";
     }
-
-    $output .= sprintf('s.events="%s";', $this->getEventString()) . PHP_EOL;
+    $eventString = $this->getEventString();
+    $output .= "s.events=\"$eventString\";\n";
 
     return $output;
   }
