@@ -17,7 +17,7 @@ class SiteCatalyst
 
   public function __construct($account, $jsSource)
   {
-// Use test account by default
+    // Use test account by default
     $this->account = $account;
     $this->jsSource = $jsSource;
   }
@@ -25,10 +25,10 @@ class SiteCatalyst
   public function getPayload()
   {
     $output = '';
-// note: output is javascript
-    $output .= "s.channel=\"%s\";\n";
-    $output .= "s.charSet=\"%s\";\n";
-    $output .= "s.pageName=\"%s\";\n";
+    // note: output is javascript
+    $output .= 's.channel="' . $this->channel . '";' . PHP_EOL;
+    $output .= 's.charSet="' . $this->encoding . '";' . PHP_EOL;
+    $output .= 's.pageName="' . $this->getPageName() . '";' . PHP_EOL;
 
     ksort($this->props);
     ksort($this->evars);
@@ -36,20 +36,20 @@ class SiteCatalyst
 
     foreach ($this->props as $id => $value)
     {
-      $output .= "s.prop$id=\"$value\";\n";
+      $output .= 's.prop' . $id . '="' . $value . '";' . PHP_EOL;
     }
 
     foreach ($this->evars as $id => $value)
     {
-      $output .= "s.eVar$id=\"$value\";\n";
+      $output .= 's.eVar' . $id . '="' . $value . '";' . PHP_EOL;
     }
 
     foreach ($this->custom as $id => $value)
     {
-      $output .= "s.$id=\"$value\";\n";
+      $output .= 's.' . $id . '="' . $value . '";' . PHP_EOL;
     }
     $eventString = $this->getEventString();
-    $output .= "s.events=\"$eventString\";\n";
+    $output .= 's.events="' . $eventString . '";' . PHP_EOL;
 
     return $output;
   }
