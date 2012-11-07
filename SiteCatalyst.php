@@ -2,23 +2,29 @@
 
 class SiteCatalyst
 {
-  protected $account = null;
-  protected $jsSource = null;
-  protected $channel = null;
+  /**
+   * @var string
+   * Used to specify the js api version number as a comment.
+   */
+  protected $apiVersion = NULL;
+  protected $account = NULL;
+  protected $jsSource = NULL;
+  protected $channel = NULL;
   protected $encoding = 'UTF-8';
 
-  protected $pageName = null;
+  protected $pageName = NULL;
 
   protected $props = array();
   protected $evars = array();
   protected $events = array();
   protected $custom = array();
 
-  public function __construct($account, $jsSource)
+  public function __construct($account, $jsSource, $apiVersion = 'H.22.1')
   {
     // Use test account by default
     $this->account = $account;
     $this->jsSource = $jsSource;
+    $this->apiVersion = $apiVersion;
   }
 
   public function getPayload()
@@ -120,10 +126,13 @@ class SiteCatalyst
   /* If you don't need to add any custom JS between header, vars, footer then getScript() should be called. These functions
   *  should only be called together as any individual one will not return a full block of valid markup.
   */
-  public function getHeader($suffix = null)
+  public function getHeader($suffix = NULL)
   {
     return <<<HEREDOC
-<script type="text/javascript">s_account="{$this->getAccount()}";</script>
+<!-- SiteCatalyst code version: {$this->apiVersion}.
+Copyright 1996-2011 Adobe, Inc. All Rights Reserved
+More info available at http://www.omniture.com -->
+<script type="text/javascript">s_account="{$this->account}";</script>
 <script type="text/javascript" src="{$this->jsSource}"></script>
 
 <script type="text/javascript">
@@ -132,7 +141,7 @@ HEREDOC;
   }
 
   /* TODO: The noscript is referencing examplecom. Need to double check with documentation and probably change it in Chris' original class. */
-  public function getFooter($prefix = null)
+  public function getFooter($prefix = NULL)
   {
     return <<<HEREDOC
 {$prefix}
@@ -147,6 +156,8 @@ if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+
 <a href="http://www.omniture.com" title="Web Analytics"><img src="http://examplecom.112.2O7.net/b/ss/examplecom/1/H.13--NS/0/4654065"
 height="1" width="1" border="0" alt="" /></a>
 </noscript>
+<!-- End SiteCatalyst code version: {$this->apiVersion}. -->
+
 HEREDOC;
   }
 
