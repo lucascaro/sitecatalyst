@@ -117,15 +117,25 @@ class SiteCatalyst
     return $this->pageName;
   }
 
-  /* TODO: The noscript is referencing examplecom. Need to double check with documentation and probably change it in Chris' original class. */
-  public function getScript()
+  /* If you don't need to add any custom JS between header, vars, footer then getScript() should be called. These functions
+  *  should only be called together as any individual one will not return a full block of valid markup.
+  */
+  public function getHeader($suffix = null)
   {
     return <<<HEREDOC
 <script type="text/javascript">s_account="{$this->getAccount()}";</script>
 <script type="text/javascript" src="{$this->jsSource}"></script>
 
 <script type="text/javascript">
-{$this->getPayload()}
+{$suffix}
+HEREDOC;
+  }
+
+  /* TODO: The noscript is referencing examplecom. Need to double check with documentation and probably change it in Chris' original class. */
+  public function getFooter($prefix = null)
+  {
+    return <<<HEREDOC
+{$prefix}
 var s_code=s.t();if(s_code)document.write(s_code)
 </script>
 
@@ -140,4 +150,9 @@ height="1" width="1" border="0" alt="" /></a>
 HEREDOC;
   }
 
+  /* Main function used to print out the markup. */
+  public function getScript()
+  {
+    return $this->getHeader() . $this->getPayload() . $this->getFooter();
+  }
 }
