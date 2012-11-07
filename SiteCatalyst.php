@@ -28,7 +28,7 @@ class SiteCatalyst
 // note: output is javascript
     $output .= sprintf('s.channel="%s";', $this->channel) . PHP_EOL;
     $output .= sprintf('s.charSet="%s";', $this->encoding) . PHP_EOL;
-    $output .= sprintf('s.pageName="%s";', $this->pageName()) . PHP_EOL;
+    $output .= sprintf('s.pageName="%s";', $this->getPageName()) . PHP_EOL;
 
     ksort($this->props);
     ksort($this->evars);
@@ -36,17 +36,17 @@ class SiteCatalyst
 
     foreach ($this->props as $id => $value)
     {
-      $output .= sprintf('s.prop%d="%s";', $id, implode($this->delimiter, $value)) . PHP_EOL;
+      $output .= sprintf('s.prop%d="%s";', $id, $value) . PHP_EOL;
     }
 
     foreach ($this->evars as $id => $value)
     {
-      $output .= sprintf('s.eVar%d="%s";', $id, implode($this->delimiter, $value)) . PHP_EOL;
+      $output .= sprintf('s.eVar%d="%s";', $id, $value) . PHP_EOL;
     }
 
     foreach ($this->custom as $id => $value)
     {
-      $output .= sprintf('s.%s="%s";', $id, implode($this->delimiter, $value)) . PHP_EOL;
+      $output .= sprintf('s.%s="%s";', $id, $value) . PHP_EOL;
     }
 
     $output .= sprintf('s.events="%s";', $this->getEventString()) . PHP_EOL;
@@ -85,16 +85,25 @@ class SiteCatalyst
 
   public function setProp($id, $value)
   {
+    if (is_array($value)) {
+      $value = implode($this->delimiter, $value);
+    }
     $this->props[$id] = $value;
   }
 
   public function setEVar($id, $value)
   {
+    if (is_array($value)) {
+      $value = implode($this->delimiter, $value);
+    }
     $this->evars[$id] = $value;
   }
 
   public function setCustomKey($key, $value)
   {
+    if (is_array($value)) {
+      $value = implode($this->delimiter, $value);
+    }
     $this->custom[$key] = $value;
   }
 
@@ -113,12 +122,17 @@ class SiteCatalyst
     return $this->encoding;
   }
 
+  public function getPageName()
+  {
+    return $this->pageName;
+  }
+
   /* TODO: The noscript is referencing examplecom. Need to double check with documentation and probably change it in Chris' original class. */
   public function getScript()
   {
     return <<<HEREDOC
 <script type="text/javascript">s_account="{$this->getAccount()}";</script>
-<script type="text/javascript" src="{$this->JsSource()}"></script>
+<script type="text/javascript" src="{$this->jsSource}"></script>
 
 <script type="text/javascript">
 {$this->getPayload()}
