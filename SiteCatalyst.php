@@ -25,9 +25,9 @@ class SiteCatalyst
   {
     $output = '';
     // note: output is javascript
-    $output .= 's.channel="' . $this->channel . '";' . PHP_EOL;
-    $output .= 's.charSet="' . $this->encoding . '";' . PHP_EOL;
-    $output .= 's.pageName="' . $this->getPageName() . '";' . PHP_EOL;
+    $output .= 's.channel="'  . $this->channel  . '";' . PHP_EOL;
+    $output .= 's.charSet="'  . $this->encoding . '";' . PHP_EOL;
+    $output .= 's.pageName="' . $this->pageName . '";' . PHP_EOL;
 
     ksort($this->props);
     ksort($this->evars);
