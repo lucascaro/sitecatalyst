@@ -6,7 +6,6 @@ class SiteCatalyst
   protected $jsSource = null;
   protected $channel = null;
   protected $encoding = 'UTF-8';
-  protected $delimiter = ':';
 
   protected $pageName = null;
 
@@ -85,25 +84,16 @@ class SiteCatalyst
 
   public function setProp($id, $value)
   {
-    if (is_array($value)) {
-      $value = implode($this->delimiter, $value);
-    }
     $this->props[$id] = $value;
   }
 
   public function setEVar($id, $value)
   {
-    if (is_array($value)) {
-      $value = implode($this->delimiter, $value);
-    }
     $this->evars[$id] = $value;
   }
 
   public function setCustomKey($key, $value)
   {
-    if (is_array($value)) {
-      $value = implode($this->delimiter, $value);
-    }
     $this->custom[$key] = $value;
   }
 
