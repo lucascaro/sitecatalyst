@@ -16,7 +16,7 @@ class SiteCatalyst
 
   public function __construct($account, $jsSource)
   {
-// Use test account by default
+    // Use test account by default
     $this->account = $account;
     $this->jsSource = $jsSource;
   }
@@ -24,10 +24,10 @@ class SiteCatalyst
   public function getPayload()
   {
     $output = '';
-// note: output is javascript
-    $output .= sprintf('s.channel="%s";', $this->channel) . PHP_EOL;
-    $output .= sprintf('s.charSet="%s";', $this->encoding) . PHP_EOL;
-    $output .= sprintf('s.pageName="%s";', $this->getPageName()) . PHP_EOL;
+    // note: output is javascript
+    $output .= 's.channel="'  . $this->channel  . '";' . PHP_EOL;
+    $output .= 's.charSet="'  . $this->encoding . '";' . PHP_EOL;
+    $output .= 's.pageName="' . $this->pageName . '";' . PHP_EOL;
 
     ksort($this->props);
     ksort($this->evars);
@@ -35,20 +35,20 @@ class SiteCatalyst
 
     foreach ($this->props as $id => $value)
     {
-      $output .= sprintf('s.prop%d="%s";', $id, $value) . PHP_EOL;
+      $output .= 's.prop' . $id . '="' . $value . '";' . PHP_EOL;
     }
 
     foreach ($this->evars as $id => $value)
     {
-      $output .= sprintf('s.eVar%d="%s";', $id, $value) . PHP_EOL;
+      $output .= 's.eVar' . $id . '="' . $value . '";' . PHP_EOL;
     }
 
     foreach ($this->custom as $id => $value)
     {
-      $output .= sprintf('s.%s="%s";', $id, $value) . PHP_EOL;
+      $output .= 's.' . $id . '="' . $value . '";' . PHP_EOL;
     }
-
-    $output .= sprintf('s.events="%s";', $this->getEventString()) . PHP_EOL;
+    $eventString = $this->getEventString();
+    $output .= 's.events="' . $eventString . '";' . PHP_EOL;
 
     return $output;
   }
