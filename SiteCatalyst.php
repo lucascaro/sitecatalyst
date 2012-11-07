@@ -124,7 +124,7 @@ class SiteCatalyst
   {
     return <<<HEREDOC
 <script type="text/javascript">s_account="{$this->getAccount()}";</script>
-<script type="text/javascript" src="{$this->JsSource}"></script>
+<script type="text/javascript" src="{$this->jsSource}"></script>
 
 <script type="text/javascript">
 {$suffix}
