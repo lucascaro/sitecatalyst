@@ -6,7 +6,6 @@ class SiteCatalyst
   protected $jsSource = null;
   protected $channel = null;
   protected $encoding = 'UTF-8';
-  protected $delimiter = ':';
 
   protected $pageName = null;
 
