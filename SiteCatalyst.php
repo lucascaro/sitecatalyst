@@ -9,10 +9,6 @@ class SiteCatalyst
   protected $apiVersion = NULL;
   protected $account = NULL;
   protected $jsSource = NULL;
-  protected $channel = NULL;
-  protected $encoding = 'UTF-8';
-
-  protected $pageName = NULL;
 
   protected $props = array();
   protected $evars = array();
@@ -31,9 +27,6 @@ class SiteCatalyst
   {
     $output = '';
     // note: output is javascript
-    $output .= 's.channel="'  . $this->channel  . '";' . PHP_EOL;
-    $output .= 's.charSet="'  . $this->encoding . '";' . PHP_EOL;
-    $output .= 's.pageName="' . $this->pageName . '";' . PHP_EOL;
 
     ksort($this->props);
     ksort($this->evars);
@@ -70,17 +63,18 @@ class SiteCatalyst
 
   public function setChannel($channel)
   {
-    $this->channel = $channel;
+    $this->setCustomKey('channel', $channel);
   }
 
   public function setEncoding($encoding)
   {
-    $this->encoding = $encoding;
+    $this->setCustomKey('charSet', $encoding);
+
   }
 
   public function setPageName($pageName)
   {
-    $this->pageName = $pageName;
+    $this->setCustomKey('pageName', $pageName);
   }
 
   public function setAccount($account)
@@ -103,6 +97,11 @@ class SiteCatalyst
     $this->custom[$key] = $value;
   }
 
+  public function getCustomKey($key)
+  {
+    return !empty($this->custom[$key]) ? $this->custom[$key] : NULL;
+  }
+
   public function getEventString()
   {
     return 'event' . implode(',event', $this->events);
@@ -115,12 +114,17 @@ class SiteCatalyst
 
   public function getEncoding()
   {
-    return $this->encoding;
+    return $this->getCustomKey('charSet');
   }
 
   public function getPageName()
   {
-    return $this->pageName;
+    return $this->getCustomKey('pageName');
+  }
+
+  public function getChannel()
+  {
+    return $this->getCustomKey('channel');
   }
 
   /* If you don't need to add any custom JS between header, vars, footer then getScript() should be called. These functions
