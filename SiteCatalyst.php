@@ -19,7 +19,7 @@ class SiteCatalyst
   protected $events = array();
   protected $custom = array();
 
-  public function __construct($account, $jsSource, $apiVersion = 'H.22.1')
+  public function __construct($jsSource, $account = NULL, $apiVersion = 'H.22.1')
   {
     // Use test account by default
     $this->account = $account;
@@ -128,11 +128,17 @@ class SiteCatalyst
   */
   public function getHeader($suffix = NULL)
   {
+    if (!empty($this->account)) {
+      $accountScript = '<script type="text/javascript">s_account="';
+      $accountScript .= $this->account . '";</script>' . PHP_EOL;
+    } else {
+      $accountScript = '';
+    }
     return <<<HEREDOC
 <!-- SiteCatalyst code version: {$this->apiVersion}.
 Copyright 1996-2011 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com -->
-<script type="text/javascript">s_account="{$this->account}";</script>
+{$accountScript}
 <script type="text/javascript" src="{$this->jsSource}"></script>
 
 <script type="text/javascript">
