@@ -19,12 +19,21 @@ class SiteCatalyst
   protected $events = array();
   protected $custom = array();
 
+  /**
+   * @var string
+   * The src of the tracker image.
+   * @see SiteCatalyst::setTrackerImage()
+   */
+  protected $trackerImage;
+
   public function __construct($account, $jsSource, $apiVersion = 'H.22.1')
   {
     // Use test account by default
     $this->account = $account;
     $this->jsSource = $jsSource;
     $this->apiVersion = $apiVersion;
+    $this->trackerImage = 'http://examplecom.112.2O7.net/b/ss/examplecom/1/H.13--NS/0/4654065';
+
   }
 
   public function getPayload()
@@ -103,6 +112,23 @@ class SiteCatalyst
     $this->custom[$key] = $value;
   }
 
+  /**
+   * Sets the tracker image source.
+   *
+   * The default value is
+   * http://examplecom.112.2O7.net/b/ss/examplecom/1/H.13--NS/0/4654065
+   * You can use protocol relative urls to have the image in both http and https
+   * pages:
+   * //examplecom.112.2O7.net/b/ss/examplecom/1/H.13--NS/0/4654065
+   *
+   * @param string $img
+   *   The image src for the tracker image.
+   */
+  public function setTrackerImage($img)
+  {
+    $this->trackerImage = $img;
+  }
+
   public function getEventString()
   {
     return 'event' . implode(',event', $this->events);
@@ -153,8 +179,9 @@ if(navigator.appVersion.indexOf('MSIE')>=0)document.write(unescape('%3C')+'\!-'+
 </script>
 
 <noscript>
-<a href="http://www.omniture.com" title="Web Analytics"><img src="http://examplecom.112.2O7.net/b/ss/examplecom/1/H.13--NS/0/4654065"
-height="1" width="1" border="0" alt="" /></a>
+<a href="http://www.omniture.com" title="Web Analytics">
+  <img src="{$this->trackerImage}" height="1" width="1" border="0" alt="" />
+</a>
 </noscript>
 <!-- End SiteCatalyst code version: {$this->apiVersion}. -->
 
