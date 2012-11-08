@@ -22,7 +22,7 @@ class SiteCatalyst
    */
   protected $trackerImage;
 
-  public function __construct($account, $jsSource, $apiVersion = 'H.22.1')
+  public function __construct($jsSource, $account = NULL, $apiVersion = 'H.22.1')
   {
     // Use test account by default
     $this->account = $account;
