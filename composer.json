@@ -1,0 +1,19 @@
+{
+    "name": "sitecatalyst/sitecatalyst",
+    "type": "library",
+    "description": "SiteCatalyst API & Helper",
+    "license": "MIT",
+    "homepage": "https://github.com/RiotGames/sitecatalyst",
+    "authors": [
+        {
+            "name": "Lucas Caro",
+            "email": "lucascaro@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {"sitecatalyst": "src/"}
+    }
+}

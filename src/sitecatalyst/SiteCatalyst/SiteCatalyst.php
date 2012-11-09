@@ -1,5 +1,7 @@
 <?php
 
+namespace sitecatalyst\SiteCatalyst;
+
 class SiteCatalyst
 {
   /**
